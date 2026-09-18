@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public static void reverse(ListNode head,int times){
+        ListNode curr=head;
+        ListNode prev=null;
+        while(times!=0){
+            ListNode nex=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=nex;
+            times--;
+        }
+    }
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head==null)return head;
+        ListNode left=head;
+        ListNode right;
+        ListNode res=null;
+        ListNode prevleft=null;
+        while(true){
+            right=left;
+            for(int i=0;i<k-1;i++){
+                if(right==null) break;
+                right=right.next;
+            }
+            if(right!=null){
+                ListNode nexleft=right.next;
+                reverse(left,k);
+                if(prevleft!=null) prevleft.next=right;
+                prevleft=left;
+                if(res==null) res=right;
+                left=nexleft;
+            }else{
+                if(prevleft!=null){
+                    prevleft.next=left;
+                }
+                if(res==null) res=left;
+                break;
+            }
+        }
+        return res;
+    }
+}
